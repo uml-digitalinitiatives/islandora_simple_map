@@ -8,11 +8,11 @@
       });
     },
     initMap: function(mapId) {
-      if (typeof(Drupal.settings.islandora_simple_map) != 'undefined') {
-        if (typeof(Drupal.settings.islandora_simple_map[mapId]) != 'undefined') {
+      if (typeof(Drupal.settings.islandora_simple_map) !== 'undefined') {
+        if (typeof(Drupal.settings.islandora_simple_map[mapId]) !== 'undefined') {
           var config = Drupal.settings.islandora_simple_map[mapId];
           var map_div = jQuery('#' + mapId).get(0);
-          var multiple_objects = (Object.prototype.toString.call(config.map_markers) === '[object Array]' ? true : false);
+          var multiple_objects = (Object.prototype.toString.call(config.map_markers) === '[object Array]');
           var bounds = new google.maps.LatLngBounds();
           var coords = [];
           var map = new google.maps.Map(map_div, {
@@ -36,7 +36,7 @@
               });
             });
             google.maps.event.addListener(map, 'click', function() {
-              if (typeof(Drupal.islandora_simple_map.mapInfoWindow) != 'undefined'){
+              if (typeof(Drupal.islandora_simple_map.mapInfoWindow) !== 'undefined'){
                 Drupal.islandora_simple_map.mapInfoWindow.close();
               }
             });
@@ -68,6 +68,10 @@
               map.initialZoom = false;
             }
           });
+          if (typeof(config.use_clustering) !== 'undefined' && config.use_clustering === 1) {
+            var options = {'imagePath': config.clustering_image_path};
+            var mc = new MarkerClusterer(map, Drupal.islandora_simple_map.markers, options);
+          }
           Drupal.islandora_simple_map.maps[mapId] = map;
         }
       }

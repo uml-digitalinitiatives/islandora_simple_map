@@ -67,6 +67,17 @@ function islandora_simple_map_admin_settings() {
       '#default_value' => variable_get('islandora_simple_map_collection_maps', FALSE),
       '#return_value' => TRUE,
     ),
+    'islandora_simple_map_use_clustering' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Use marker clustering for collection maps.'),
+      '#description' => t('For large numbers of markers on a map, this will combine them to reduce lag.'),
+      '#default_value' => variable_get('islandora_simple_map_use_clustering', FALSE),
+      '#states' => array(
+        'visible' => array(
+          ':input[name="islandora_simple_map_collection_maps"]' => array('checked' => TRUE),
+        ),
+      ),
+    ),
   );
   $form['islandora_simple_map_solr_fieldset'] = array(
     '#type' => 'fieldset',
